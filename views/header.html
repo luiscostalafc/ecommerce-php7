@@ -18,12 +18,12 @@
     <link rel="stylesheet" href="/res/site/css/bootstrap.min.css">
     
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="/res/sitecss/font-awesome.min.css">
+    <link rel="stylesheet" href="/res/site/css/font-awesome.min.css">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/res/sitecss/owl.carousel.css">
-    <link rel="stylesheet" href="/res/sitecss/style.css">
-    <link rel="stylesheet" href="/res/sitecss/responsive.css">
+    <link rel="stylesheet" href="/res/site/css/owl.carousel.css">
+    <link rel="stylesheet" href="/res/site/css/style.css">
+    <link rel="stylesheet" href="/res/site/css/responsive.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -85,7 +85,7 @@
                 
                 <div class="col-sm-6">
                     <div class="shopping-item">
-                        <a href="carrinho.html">Carrinho - <span class="cart-amunt">R$100</span> <i class="fa fa-shopping-cart"></i> <span class="product-count">5</span></a>
+                        <a href="/res/site/carrinho.html">Carrinho - <span class="cart-amunt">R$100</span> <i class="fa fa-shopping-cart"></i> <span class="product-count">5</span></a>
                     </div>
                 </div>
             </div>
@@ -112,4 +112,4 @@
                 </div>  
             </div>
         </div>
-    </div> <!-- End mainmenu area -->
+    </div>

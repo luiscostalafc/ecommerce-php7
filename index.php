@@ -189,10 +189,14 @@ $page = new PageAdmin([
 
 ]);
 
+
 $page->setTpl("forgot-sent");
 
 });
 
+
+
 $app->run();
+
 
  ?>

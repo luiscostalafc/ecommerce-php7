@@ -4,11 +4,11 @@ namespace Hcode;
 
 use Rain\Tpl;
 
-class Mailer {
+class Mailer{
 
 
-const USERNAME = "luiscostalafc@gmail.com";
-const PASSWORD = "rembrandt69007";
+const USERNAME = "hcodecosta007.com";
+const PASSWORD = "5152535456";
 const NAME_FROM = "Hcode Store";
 
 private $mail;

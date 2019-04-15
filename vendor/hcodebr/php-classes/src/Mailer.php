@@ -7,7 +7,7 @@ use Rain\Tpl;
 class Mailer{
 
 
-const USERNAME = "hcodecosta007.com";
+const USERNAME = "rembrandtlafc@gmail.com";
 const PASSWORD = "5152535456";
 const NAME_FROM = "Hcode Store";
 
@@ -29,25 +29,26 @@ $config = array(
 		foreach ($data as $key => $value) {
 			$tpl->assign($key, $value);
 			
-		}
+}
 
-		$html = $tpl->draw($tplName, true);
+$html = $tpl->draw($tplName, true);
 
 
-$this->$mail = new \PHPMailer;
+$this->mail = new \PHPMailer;
 
+$this->mail->CharSet = 'UTF-8';
 //Tell PHPMailer to use SMTP
-$mail->isSMTP();
+$this->mail->isSMTP();
 
 //Enable SMTP debugging
 // 0 = off (for production use)
 // 1 = client messages
 // 2 = client and server messages
-$mail->SMTPDebug = 0;
-$mail->Debugoutput = 'html';
+$this->mail->SMTPDebug = 0;
+$this->mail->Debugoutput = 'html';
 
 //Set the hostname of the mail server
-$mail->Host = 'smtp.gmail.com';
+$this->mail->Host = 'smtp.gmail.com';
 // use
 // $mail->Host = gethostbyname('smtp.gmail.com');
 // if your network does not support SMTP over IPv6

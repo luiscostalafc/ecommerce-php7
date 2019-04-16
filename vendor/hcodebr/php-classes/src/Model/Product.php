@@ -18,6 +18,20 @@ public static function listAll(){
 
 }
 
+public static function chekList($list){
+
+foreach ($list as &$row) {
+    
+  $p = new Product();
+  $p->setData($row);
+  $row = $p->getvalues();
+
+}
+
+return $list;
+
+}
+
 public function save()
 
 {

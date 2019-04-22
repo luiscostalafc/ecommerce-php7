@@ -18,7 +18,7 @@ public static function listAll(){
 
 }
 
-public static function chekList($list){
+public static function checkList($list){
 
 foreach ($list as &$row) {
     

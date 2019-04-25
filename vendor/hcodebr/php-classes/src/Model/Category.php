@@ -7,6 +7,7 @@ use \Hcode\Model;
 use \Hcode\Mailer;
 
 
+
 class Category extends Model {
 
 	
@@ -87,12 +88,11 @@ $sql = new Sql();
 if ($related == true) {
 
     return $sql->select("
-    SELECT * FROM tb_products WHERE idproduct IN(
+        SELECT * FROM tb_products WHERE idproduct IN(
         SELECT a.idproduct  
         FROM tb_products a
         INNER JOIN tb_productscategories b ON a.idproduct = b.idproduct
         WHERE b.idcategory = :idcategory
-
         );
 
         ", [
@@ -109,7 +109,6 @@ if ($related == true) {
         FROM tb_products a
         INNER JOIN tb_productscategories b ON a.idproduct = b.idproduct
         WHERE b.idcategory = idcategory
-
         );
 
         ", [
@@ -124,7 +123,7 @@ if ($related == true) {
 
 }
 
-public function getProductsPage($page = 1, $itemsPerPage = 38){
+public function getProductsPage($page = 1, $itemsPerPage = 8){
 
  $start = ($page - 1) * $itemsPerPage;   
 
@@ -172,7 +171,7 @@ public function removeProduct(Product $product){
 
 $sql = new Sql();
 
-$sql->query("DELETE FROM tb_productscategories WHERE idcategory = :idcategory AND idproduct =:idproduct", [
+$sql->query("DELETE FROM tb_productscategories WHERE idcategory = :idcategory AND idproduct = :idproduct", [
 
 ':idcategory'=>$this->getidcategory(),
 ':idproduct'=>$product->getidproduct()

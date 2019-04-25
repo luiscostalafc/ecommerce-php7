@@ -109,7 +109,7 @@ User::verifyLogin();
 
 $category = new Category();
 
-$category->get((int)$idcategory);	
+$category->get((int)$idcategory);
 
 $page = new PageAdmin();
 
@@ -129,13 +129,14 @@ User::verifyLogin();
 
 $category = new Category();
 
-$category->get ((int)$idcategory);	
+$category->get((int)$idcategory);	
 
 $product = new Product();
 
 $product->get((int)$idproduct);
 
-$category->addProducts($product);
+$category->addProduct($product);
+
 header("Location: /admin/categories/".$idcategory."/products");
 exit;
 
@@ -147,13 +148,14 @@ User::verifyLogin();
 
 $category = new Category();
 
-$category->get ((int)$idcategory);	
+$category->get((int)$idcategory);	
 
 $product = new Product();
 
 $product->get((int)$idproduct);
 
-$category->removeProducts($product);
+$category->removeProduct($product);
+
 header("Location: /admin/categories/".$idcategory."/products");
 exit;
 

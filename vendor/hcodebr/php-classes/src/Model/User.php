@@ -51,7 +51,7 @@ class User extends Model {
         return true;
 
 
-        } else if ($inadmin === false) {
+        } elseif ($inadmin === false) {
 
         return true;
 
@@ -67,48 +67,7 @@ class User extends Model {
 
     }
 
-	public static function login($login, $password)
-
-	{
-
-	$sql = new Sql();
-
-	$results = $sql->select("SELECT * FROM tb_users WHERE deslogin = :LOGIN", array(
-		":LOGIN"=>$login
-
-	));
-
-	if (count($results) === 0){
-
-		throw new \Exception("Usuário inexistente ou senha inválida.");
-
-	}
-
-	$data = $results[0];
-
-	if (password_verify($password, $data["despassword"]) === true)
-
-	{
-
-		$user = new User();
-
-        $data['desperson'] = utf8_encode($data['desperson']);
-
-		$user->setData($data);
-
-		$_SESSION[User::SESSION] = $user->getValues();
-
-		return $user;
-
-
-	}else{
-
-     throw new \Exception("Usuário inexistente ou senha inválida.");
-
-
-	}
-
-}
+	
 
 public static function verifyLogin($inadmin = true)
 {
@@ -137,6 +96,47 @@ if (!User::checkLogin($inadmin)) {
 
 	}
 
+    public static function login($login, $password){
+
+    $sql = new Sql();
+
+    $results = $sql->select("SELECT * FROM tb_users a INNER JOIN tb_persons b ON a.idperson = b.idperson WHERE a.deslogin = :LOGIN", array(
+        ":LOGIN"=>$login
+
+    ));
+
+    if (count($results) === 0){
+
+        throw new \Exception("Usuário inexistente ou senha inválida.");
+
+    }
+
+    $data = $results[0];
+
+    if (password_verify($password, $data["despassword"]) === true)
+
+    {
+
+        $user = new User();
+
+        $data['desperson'] = utf8_encode($data['desperson']);
+
+        $user->setData($data);
+
+        $_SESSION[User::SESSION] = $user->getValues();
+
+        return $user;
+
+
+    }else{
+
+     throw new \Exception("Usuário inexistente ou senha inválida.");
+
+
+    }
+
+}
+
 	public static function listAll(){
     
     $sql = new Sql();
@@ -155,12 +155,12 @@ if (!User::checkLogin($inadmin)) {
 		$results = $sql-> select("CALL sp_users_save(:desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)", array(
 		":desperson"=>utf8_decode($this->getdesperson()),
 		":deslogin"=>$this->getdeslogin(),
-		":despassword"=>User::getdespassword($this->getdespassword()),
+		":despassword"=>User::getPasswordHash($this->getdespassword()),
 		":desemail"=>$this->getdesemail(),
 		":nrphone"=>$this->getnrphone(),
 		":inadmin"=>$this->getinadmin()
 		));
-
+        
 		$this->setData($results[0]);
 
 	}
@@ -177,7 +177,7 @@ if (!User::checkLogin($inadmin)) {
 
         $data['desperson'] = utf8_encode($data['desperson']);
 
-		$this->setData($results[0]);
+		$this->setData($data);
 
 
 	}
@@ -280,7 +280,7 @@ if (!User::checkLogin($inadmin)) {
     }
     public static function clearError(){
 
-        $_SESSION[USer::ERROR] = NULL;
+        $_SESSION[User::ERROR] = NULL;
 
     }
 
@@ -292,7 +292,7 @@ if (!User::checkLogin($inadmin)) {
 
     public static function getErrorRegister(){
 
-    $msg = (isset($_SESSION[USer::ERROR_REGISTER]) && $_SESSION[User::ERROR_REGISTER]) ?
+    $msg = (isset($_SESSION[User::ERROR_REGISTER]) && $_SESSION[User::ERROR_REGISTER]) ?
     $_SESSION[User::ERROR_REGISTER] : '';
 
     User::clearErrorRegister();

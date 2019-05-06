@@ -74,7 +74,7 @@ public static function verifyLogin($inadmin = true)
 
 if (!User::checkLogin($inadmin)) {
 
-    if($iandmin){
+    if($inadmin){
 
     header("Location: /admin/login");
     } else {
@@ -253,6 +253,8 @@ if (!User::checkLogin($inadmin)) {
              } else {
                  $link = "http://www.hcodecommerce.com.br/forgot/reset?code=$result";
              } 
+
+
              $mailer = new Mailer($data["desemail"], $data["desperson"], "Redefinir senha da Hcode Store", "forgot", array(
                  "name"=>$data["desperson"],
                  "link"=>$link
@@ -262,6 +264,58 @@ if (!User::checkLogin($inadmin)) {
          }
      }
  }
+
+     public static function validForgotDecrypt($result)
+ {
+     $result = base64_decode($result);
+     $code = mb_substr($result, openssl_cipher_iv_length('aes-256-cbc'), null, '8bit');
+     $iv = mb_substr($result, 0, openssl_cipher_iv_length('aes-256-cbc'), '8bit');;
+     $idrecovery = openssl_decrypt($code, 'aes-256-cbc', User::SECRET, 0, $iv);
+     $sql = new Sql();
+     $results = $sql->select("
+         SELECT *
+         FROM tb_userspasswordsrecoveries a
+         INNER JOIN tb_users b USING(iduser)
+         INNER JOIN tb_persons c USING(idperson)
+         WHERE
+         a.idrecovery = :idrecovery
+         AND
+         a.dtrecovery IS NULL
+         AND
+         DATE_ADD(a.dtregister, INTERVAL 1 HOUR) >= NOW();
+     ", array(
+         ":idrecovery"=>$idrecovery
+     ));
+     if (count($results) === 0)
+     {
+         throw new \Exception("Não foi possível recuperar a senha.");
+     }
+     else
+     {
+         return $results[0];
+     }
+ }
+
+ public static function setForgotUsed($idrecovery){
+
+        $sql = new Sql();
+
+        $sql->query("UPDATE tb_userpasswordsrecoveries SET dtrecovery = NOW() WHERE idrecovery = :idrecovery", array(
+            ":idrecovery"=>$idrecovery
+        ));
+    }
+
+    public function setPassword($password){
+
+        $sql = new Sql();
+
+        $sql->query("UPDATE tb_users SET desperson = :password WHERE iduser = :iduser", array(
+            ":password"=>$password ,
+            ":iduser"=>$this->getiduser() 
+        ));
+
+    }
+
 
     public static function setError($msg){
 

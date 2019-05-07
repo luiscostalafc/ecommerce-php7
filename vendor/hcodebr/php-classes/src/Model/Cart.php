@@ -275,9 +275,9 @@ return str_replace(',', '.', $value);
 
 }
 
-public static function setMsgErro(){
+public static function setMsgErro($msg){
 
-$_SESSION[Cart::SESSION_ERROR] = $msg;
+$_SESSION[Cart::SESSION_ERROR] = (string)$msg;
 
 }
 

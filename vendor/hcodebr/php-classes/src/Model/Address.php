@@ -58,13 +58,13 @@ public function save(){
    $results = $sql->select("CALL sp_addresses_save(:idaddress, :idperson, :desaddress, :descomplement, :descity, :desstate, :descountry, :deszipcode, :desdistrict)", [
        ':idaddress'=>$this->getidaddress(),
        ':idperson'=>$this->getidperson(),
-       ':desaddress'=>$this->utf8_decode(getdesaddress()),
-       ':descomplement'=>$this->utf8_decode(getdescomplement()),
-       ':descity'=>$this->utf8_decode(getdescity()),
-       ':desstate'=>$this->utf8_decode(getdesstate()),
-       ':descountry'=>$this->utf8_decode(getdescountry()),
+       ':desaddress'=>utf8_decode($this->getdesaddress()),
+       ':descomplement'=>utf8_decode($this->getdescomplement()),
+       ':descity'=>utf8_decode($this->getdescity()),
+       ':desstate'=>utf8_decode($this->getdesstate()),
+       ':descountry'=>utf8_decode($this->getdescountry()),
        ':deszipcode'=>$this->getdeszipcode(),
-       ':desdistrict'=>$this->getdesdistrict()
+       ':desdistrict'=>utf8_decode($this->getdesdistrict())
       ]);
 
    if (count($results) > 0) {

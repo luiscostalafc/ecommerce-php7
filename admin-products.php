@@ -38,8 +38,6 @@ for ($x = 0; $x < $pagination['pages']; $x++){
 	}	
 
 
-$products = Product::listAll();	
-
 $page = new PageAdmin();
 
 $page->setTpl("products", [

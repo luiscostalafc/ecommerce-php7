@@ -58,11 +58,7 @@ $cart->get((int)$_SESSION[Cart::SESSION]['idcart']);
 
 } 
 
-public function setToSession(){
 
-$_SESSION[Cart::SESSION] = $this->getValues();
-
-}
 
 public function getFromSessionID(){
 
@@ -78,6 +74,12 @@ if(count($results) > 0){
     $this->setData($results[0]);
 
     }
+
+}
+
+public function setToSession(){
+
+$_SESSION[Cart::SESSION] = $this->getValues();
 
 }
 
@@ -140,7 +142,11 @@ $sql = new Sql;
 
 if($all) {
 
-     $sql->query("UPDATE tb_cartsproducts SET dtremoved = NOW() WHERE idcart = :idcart AND idproduct = :idproduct AND dtremoved is NULL", [
+     $sql->query("
+      UPDATE tb_cartsproducts SET dtremoved = NOW() 
+      WHERE idcart = :idcart 
+      AND idproduct = :idproduct 
+      AND dtremoved is NULL", [
        ':idcart'=>$this->getidcart(),
        ':idproduct'=>$product->getidproduct()
      
@@ -148,7 +154,11 @@ if($all) {
 
 } else {
 
-   $sql->query("UPDATE tb_cartsproducts SET dtremoved = NOW() WHERE idcart = :idcart AND idproduct = :idproduct AND dtremoved is NULL LIMIT 1", [
+   $sql->query("
+    UPDATE tb_cartsproducts SET dtremoved = NOW() 
+    WHERE idcart = :idcart 
+    AND idproduct = :idproduct 
+    AND dtremoved is NULL LIMIT 1", [
        ':idcart'=>$this->getidcart(),
        ':idproduct'=>$product->getidproduct()
 
@@ -165,14 +175,16 @@ if($all) {
    $sql = new Sql();
 
    $rows = $sql->select("
-    SELECT b.idproduct, b.desproduct, b.vlprice, b.vlwidth, b.vlheight, b.vllength, b.vlweight, b.desurl, COUNT(*) AS nrqtd, SUM(b.vlprice) AS vltotal 
+    SELECT b.idproduct, b.desproduct, b.vlprice, b.vlwidth, b.vlheight, b.vllength, b.vlweight, b.desurl, 
+    COUNT(*) AS nrqtd, 
+    SUM(b.vlprice) AS vltotal 
     FROM  tb_cartsproducts a 
     INNER JOIN tb_products b 
     ON a.idproduct = b.idproduct 
-    WHERE a.idcart = :idcart AND a.dtremoved IS NULL 
+    WHERE a.idcart = :idcart 
+    AND a.dtremoved IS NULL 
     GROUP BY b.idproduct, b.desproduct, b.vlprice, b.vlwidth, b.vlheight, b.vllength, b.vlweight, b.desurl  
     ORDER BY b.desproduct", [
-
         'idcart'=>$this->getidcart()
 
         ]);
@@ -214,9 +226,9 @@ if($all) {
   $totals = $this->getProductsTotals();
 
   if ($totals['nrqtd'] > 0) {
-
   if ($totals['vlheight'] < 2) $totals['vlheight'] = 2;
   if ($totals['vllength'] < 16) $totals['vllength'] = 16;
+  if ($totals['vlwidth'] < 11) $totals['vlwidth'] = 11;
 
     $qs = http_build_query([
       'nCdEmpresa'=>'',
